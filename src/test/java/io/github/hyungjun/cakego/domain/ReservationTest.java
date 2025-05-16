@@ -9,9 +9,33 @@ import java.util.List;
 public class ReservationTest {
     @Test
     void shouldStartAsPendingWhenReservationIsCreated() {
-        // 1. 케이크 사이즈 객체 생성
-        CakeSize cakeSize = new CakeSize(
-                "1호",
+        CakeSize cakeSize = regularCakeSizeWithAllOptions();
+        Customer customer = someCustomer();
+        List<Option> selectedOptions = selectValidOptionForReservation();
+        LocalDateTime pickupTime = validPickupTime();
+        Reservation reservation = new Reservation(cakeSize, customer, selectedOptions, pickupTime);
+        Assertions.assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.PENDING);
+    }
+
+    private static LocalDateTime validPickupTime() {
+        return LocalDateTime.now().plusDays(3).withHour(11).withMinute(0);
+    }
+
+    private static List<Option> selectValidOptionForReservation() {
+        return List.of(
+                new Option("초코+생크림", 1000),
+                new Option("생일 축하해", 0),
+                new Option("하늘색", 0)
+        );
+    }
+
+    private static Customer someCustomer() {
+        return new Customer("홍길동", "010-1234-5678");
+    }
+
+    private static CakeSize regularCakeSizeWithAllOptions() {
+        return new CakeSize(
+                new CakeSizeName("1호"),
                 CakeOrderType.REGULAR,
                 43000,
                 true,
@@ -30,24 +54,5 @@ public class ReservationTest {
                         ))
                 )
         );
-
-        // 2. 고객 객체 생성
-        Customer customer = new Customer("홍길동", "010-1234-5678");
-
-        // 3. 옵션 선택
-        List<Option> selectedOptions = List.of(
-                new Option("초코+생크림", 1000),
-                new Option("생일 축하해", 0),
-                new Option("하늘색", 0)
-        );
-
-        // 4. 픽업 날짜 객체 생성
-        LocalDateTime pickupTime = LocalDateTime.now().plusDays(3).withHour(11).withMinute(0);
-
-        // 5. 예약 객체 생성
-        Reservation reservation = new Reservation(cakeSize, customer, selectedOptions, pickupTime);
-
-        // 6. 예약 상태 확인
-        Assertions.assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.PENDING);
     }
 }
