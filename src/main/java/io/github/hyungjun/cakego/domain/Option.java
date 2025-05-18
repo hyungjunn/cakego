@@ -2,10 +2,10 @@ package io.github.hyungjun.cakego.domain;
 
 public class Option {
     private String name;
-    private int extraChange;
+    private Money money;
 
-    public Option(String name, int extraChange) {
+    public Option(String name, Money money) {
         this.name = name;
-        this.extraChange = extraChange;
+        this.money = money;
     }
 }

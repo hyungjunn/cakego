@@ -23,9 +23,9 @@ public class ReservationTest {
 
     private static List<Option> selectValidOptionForReservation() {
         return List.of(
-                new Option("초코+생크림", 1000),
-                new Option("생일 축하해", 0),
-                new Option("하늘색", 0)
+                new Option("초코+생크림", Money.won(1000)),
+                new Option("생일 축하해", Money.zero()),
+                new Option("하늘색", Money.zero())
         );
     }
 
@@ -37,20 +37,20 @@ public class ReservationTest {
         return new CakeSize(
                 new CakeSizeName("1호"),
                 CakeOrderType.REGULAR,
-                43000,
+                Money.won(43000),
                 true,
                 List.of(
                         new OptionGroup("시트+샌딩", List.of(
-                                new Option("초코+생크림", 1000),
-                                new Option("딸기+생크림", 1500)
+                                new Option("초코+생크림", Money.won(1000)),
+                                new Option("딸기+생크림", Money.won(2000))
                         )),
                         new OptionGroup("상단 문구", List.of(
-                                new Option("생일 축하해", 0),
-                                new Option("사랑해", 0)
+                                new Option("생일 축하해", Money.zero()),
+                                new Option("사랑해", Money.zero())
                         )),
                         new OptionGroup("배경색", List.of(
-                                new Option("하늘색", 0),
-                                new Option("분홍색", 0)
+                                new Option("하늘색", Money.zero()),
+                                new Option("분홍색", Money.zero())
                         ))
                 )
         );
