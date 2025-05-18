@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 public class ReservationTest {
     @Test
     void shouldStartAsPendingWhenReservationIsCreated() {
@@ -15,6 +17,42 @@ public class ReservationTest {
         LocalDateTime pickupTime = validPickupTime();
         Reservation reservation = new Reservation(cakeSize, customer, selectedOptions, pickupTime);
         Assertions.assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.PENDING);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTryingToReserveHiddenCake() {
+        CakeSize hiddenCake = cakeSizeHidden();
+        Customer customer = someCustomer();
+        List<Option> options = selectValidOptionForReservation();
+        LocalDateTime pickupTime = validPickupTime();
+        assertThatThrownBy(() ->
+                new Reservation(hiddenCake, customer, options, pickupTime))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("예약할 수 없는 케이크입니다.");
+    }
+
+    // This testFixture is implemented for the purpose of testing reserve hidden cake.
+    private CakeSize cakeSizeHidden() {
+        return new CakeSize(
+                new CakeSizeName("1호"),
+                CakeOrderType.REGULAR,
+                Money.won(43000),
+                false,
+                List.of(
+                        new OptionGroup("시트+샌딩", List.of(
+                                new Option("초코+생크림", Money.won(1000)),
+                                new Option("딸기+생크림", Money.won(2000))
+                        )),
+                        new OptionGroup("상단 문구", List.of(
+                                new Option("생일 축하해", Money.zero()),
+                                new Option("사랑해", Money.zero())
+                        )),
+                        new OptionGroup("배경색", List.of(
+                                new Option("하늘색", Money.zero()),
+                                new Option("분홍색", Money.zero())
+                        ))
+                )
+        );
     }
 
     private static LocalDateTime validPickupTime() {

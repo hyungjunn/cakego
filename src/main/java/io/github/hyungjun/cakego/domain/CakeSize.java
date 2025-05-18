@@ -16,4 +16,8 @@ public class CakeSize {
         this.isAvailable = isAvailable;
         this.optionGroups = optionGroups;
     }
+
+    public boolean isHidden() {
+        return !isAvailable;
+    }
 }
