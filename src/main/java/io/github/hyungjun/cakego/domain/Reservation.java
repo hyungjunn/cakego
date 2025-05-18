@@ -17,6 +17,9 @@ public class Reservation {
         if (cakeSize.isHidden()) {
             throw new IllegalArgumentException("예약할 수 없는 케이크입니다.");
         }
+        if (pickupTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("예약일자는 현재 시간보다 미래여야 합니다.");
+        }
         this.cakeSize = cakeSize;
         this.customer = customer;
         this.selectedOptions = selectedOptions;

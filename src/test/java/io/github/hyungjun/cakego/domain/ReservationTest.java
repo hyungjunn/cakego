@@ -31,6 +31,18 @@ public class ReservationTest {
                 .hasMessageContaining("예약할 수 없는 케이크입니다.");
     }
 
+    @Test
+    void shouldThrowExceptionWhenReservingWithPastDate() {
+        LocalDateTime past = LocalDateTime.now().minusDays(1);
+        CakeSize cakeSize = regularCakeSizeWithAllOptions();
+        Customer customer = someCustomer();
+        List<Option> options = selectValidOptionForReservation();
+        assertThatThrownBy(() ->
+                new Reservation(cakeSize, customer, options, past))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("예약일자는 현재 시간보다 미래여야 합니다.");
+    }
+
     // This testFixture is implemented for the purpose of testing reserve hidden cake.
     private CakeSize cakeSizeHidden() {
         return new CakeSize(
