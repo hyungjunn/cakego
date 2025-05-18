@@ -2,10 +2,10 @@ package io.github.hyungjun.cakego.domain;
 
 public class Customer {
     private String name;
-    private String phone;
+    private PhoneNumber phoneNumber;
 
-    public Customer(String name, String phone) {
+    public Customer(String name, PhoneNumber phoneNumber) {
         this.name = name;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
     }
 }

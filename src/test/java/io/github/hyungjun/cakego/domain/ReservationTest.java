@@ -30,7 +30,7 @@ public class ReservationTest {
     }
 
     private static Customer someCustomer() {
-        return new Customer("홍길동", "010-1234-5678");
+        return new Customer("홍길동", new PhoneNumber("010-1234-5678"));
     }
 
     private static CakeSize regularCakeSizeWithAllOptions() {
