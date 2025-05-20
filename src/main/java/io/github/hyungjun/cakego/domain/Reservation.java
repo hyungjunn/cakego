@@ -14,16 +14,9 @@ public class Reservation {
     private ReservationStatus status;
 
     public Reservation(CakeSize cakeSize, Customer customer, List<Option> selectedOptions, LocalDateTime pickupTime) {
-        if (cakeSize.isHidden()) {
-            throw new IllegalArgumentException("예약할 수 없는 케이크입니다.");
-        }
+        validateCakeAvailability(cakeSize);
         validateOptions(cakeSize, selectedOptions);
-        if (pickupTime.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("예약일자는 현재 시간보다 미래여야 합니다.");
-        }
-        if (isNotReservationUnit(pickupTime)) {
-            throw new IllegalArgumentException("예약일자는 30분 단위로 예약 가능합니다.");
-        }
+        validatePickupTime(pickupTime);
         this.cakeSize = cakeSize;
         this.customer = customer;
         this.selectedOptions = selectedOptions;
@@ -31,10 +24,25 @@ public class Reservation {
         this.status = ReservationStatus.PENDING;
     }
 
+    private static void validateCakeAvailability(CakeSize cakeSize) {
+        if (cakeSize.isHidden()) {
+            throw new IllegalArgumentException("예약할 수 없는 케이크입니다.");
+        }
+    }
+
     private static void validateOptions(CakeSize cakeSize, List<Option> selectedOptions) {
         List<String> invalidOptionNames = cakeSize.findInvalidOptionNames(selectedOptions);
         if (!invalidOptionNames.isEmpty()) {
             throw new IllegalArgumentException("유효하지 않은 옵션입니다: " + String.join(", ", invalidOptionNames));
+        }
+    }
+
+    private void validatePickupTime(LocalDateTime pickupTime) {
+        if (pickupTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("예약일자는 현재 시간보다 미래여야 합니다.");
+        }
+        if (isNotReservationUnit(pickupTime)) {
+            throw new IllegalArgumentException("예약일자는 30분 단위로 예약 가능합니다.");
         }
     }
 
