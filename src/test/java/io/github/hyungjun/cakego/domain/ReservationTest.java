@@ -55,6 +55,22 @@ public class ReservationTest {
                 .hasMessageContaining("예약일자는 30분 단위로 예약 가능합니다.");
     }
 
+    @Test // 옵션 유효성 검증(사용자가 불일치한 옵션을 api로 설정할 위험이 있기 때문에)
+    void shouldThrowExceptionWhenReservingWithInvalidOptions() {
+        CakeSize cakeSize = regularCakeSizeWithAllOptions();
+        Customer customer = someCustomer();
+        List<Option> options = List.of(
+                new Option("초코+생크림", Money.won(1000)),
+                new Option("존재하지 않는 옵션1", Money.zero()),
+                new Option("존재하지 않는 옵션2", Money.zero())
+        );
+        LocalDateTime pickupTime = validPickupTime();
+        assertThatThrownBy(() ->
+                new Reservation(cakeSize, customer, options, pickupTime))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("유효하지 않은 옵션입니다: 존재하지 않는 옵션1, 존재하지 않는 옵션2");
+    }
+
     // This testFixture is implemented for the purpose of testing reserve hidden cake.
     private CakeSize cakeSizeHidden() {
         return new CakeSize(
