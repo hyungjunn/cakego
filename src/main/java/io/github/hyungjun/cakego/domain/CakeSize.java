@@ -11,7 +11,13 @@ public class CakeSize {
     private boolean isAvailable;
     private List<OptionGroup> optionGroups;
 
-    public CakeSize(CakeSizeName name, CakeOrderType cakeType, Money basePrice, boolean isAvailable, List<OptionGroup> optionGroups) {
+    public CakeSize(
+            CakeSizeName name,
+            CakeOrderType cakeType,
+            Money basePrice,
+            boolean isAvailable,
+            List<OptionGroup> optionGroups
+    ) {
         this.name = name;
         this.cakeType = cakeType;
         this.basePrice = basePrice;
