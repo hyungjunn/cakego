@@ -16,12 +16,13 @@ public class Option {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Option option)) return false;
-        return Objects.equals(name, option.name);
+        if (!(o instanceof Option)) return false;
+        Option option = (Option) o;
+        return Objects.equals(name, option.name) && Objects.equals(money, option.money);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hash(name, money);
     }
 }
