@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CakeSize {
+public class CakeTemplate {
     private CakeSizeName name;
     private CakeOrderType cakeType;
     private Money basePrice;
     private boolean isAvailable;
     private List<OptionGroup> optionGroups;
 
-    public CakeSize(
+    public CakeTemplate(
             CakeSizeName name,
             CakeOrderType cakeType,
             Money basePrice,

@@ -11,17 +11,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class ReservationTest {
     @Test
     void shouldStartAsPendingWhenReservationIsCreated() {
-        CakeSize cakeSize = regularCakeSizeWithAllOptions();
+        CakeTemplate cakeTemplate = regularCakeSizeWithAllOptions();
         Customer customer = someCustomer();
         List<Option> selectedOptions = selectValidOptionForReservation();
         LocalDateTime pickupTime = validPickupTime();
-        Reservation reservation = new Reservation(cakeSize, customer, selectedOptions, pickupTime);
+        Reservation reservation = new Reservation(cakeTemplate, customer, selectedOptions, pickupTime);
         Assertions.assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.PENDING);
     }
 
     @Test
     void shouldThrowExceptionWhenTryingToReserveHiddenCake() {
-        CakeSize hiddenCake = cakeSizeHidden();
+        CakeTemplate hiddenCake = cakeSizeHidden();
         Customer customer = someCustomer();
         List<Option> options = selectValidOptionForReservation();
         LocalDateTime pickupTime = validPickupTime();
@@ -34,11 +34,11 @@ public class ReservationTest {
     @Test
     void shouldThrowExceptionWhenReservingWithPastDate() {
         LocalDateTime past = LocalDateTime.now().minusDays(1);
-        CakeSize cakeSize = regularCakeSizeWithAllOptions();
+        CakeTemplate cakeTemplate = regularCakeSizeWithAllOptions();
         Customer customer = someCustomer();
         List<Option> options = selectValidOptionForReservation();
         assertThatThrownBy(() ->
-                new Reservation(cakeSize, customer, options, past))
+                new Reservation(cakeTemplate, customer, options, past))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("예약일자는 현재 시간보다 미래여야 합니다.");
     }
@@ -46,18 +46,18 @@ public class ReservationTest {
     @Test
     void shouldThrowExceptionWhenReservingWithInvalidTime() {
         LocalDateTime invalidTime = LocalDateTime.now().plusDays(3).withHour(11).withMinute(15);
-        CakeSize cakeSize = regularCakeSizeWithAllOptions();
+        CakeTemplate cakeTemplate = regularCakeSizeWithAllOptions();
         Customer customer = someCustomer();
         List<Option> options = selectValidOptionForReservation();
         assertThatThrownBy(() ->
-                new Reservation(cakeSize, customer, options, invalidTime))
+                new Reservation(cakeTemplate, customer, options, invalidTime))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("예약일자는 30분 단위로 예약 가능합니다.");
     }
 
     @Test // 옵션 유효성 검증(사용자가 불일치한 옵션을 api로 설정할 위험이 있기 때문에)
     void shouldThrowExceptionWhenReservingWithInvalidOptions() {
-        CakeSize cakeSize = regularCakeSizeWithAllOptions();
+        CakeTemplate cakeTemplate = regularCakeSizeWithAllOptions();
         Customer customer = someCustomer();
         List<Option> options = List.of(
                 new Option("초코+생크림", Money.won(1000)),
@@ -66,14 +66,14 @@ public class ReservationTest {
         );
         LocalDateTime pickupTime = validPickupTime();
         assertThatThrownBy(() ->
-                new Reservation(cakeSize, customer, options, pickupTime))
+                new Reservation(cakeTemplate, customer, options, pickupTime))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("유효하지 않은 옵션입니다: 존재하지 않는 옵션1, 존재하지 않는 옵션2");
     }
 
     // This testFixture is implemented for the purpose of testing reserve hidden cake.
-    private CakeSize cakeSizeHidden() {
-        return new CakeSize(
+    private CakeTemplate cakeSizeHidden() {
+        return new CakeTemplate(
                 new CakeSizeName("1호"),
                 CakeOrderType.REGULAR,
                 Money.won(43000),
@@ -111,8 +111,8 @@ public class ReservationTest {
         return new Customer("홍길동", new PhoneNumber("010-1234-5678"));
     }
 
-    private static CakeSize regularCakeSizeWithAllOptions() {
-        return new CakeSize(
+    private static CakeTemplate regularCakeSizeWithAllOptions() {
+        return new CakeTemplate(
                 new CakeSizeName("1호"),
                 CakeOrderType.REGULAR,
                 Money.won(43000),

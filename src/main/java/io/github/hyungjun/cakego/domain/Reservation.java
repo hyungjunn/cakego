@@ -7,31 +7,31 @@ import java.util.List;
 
 @Getter
 public class Reservation {
-    private CakeSize cakeSize;
+    private CakeTemplate cakeTemplate;
     private Customer customer;
     private List<Option> selectedOptions;
     private LocalDateTime pickupTime;
     private ReservationStatus status;
 
-    public Reservation(CakeSize cakeSize, Customer customer, List<Option> selectedOptions, LocalDateTime pickupTime) {
-        validateCakeAvailability(cakeSize);
-        validateOptions(cakeSize, selectedOptions);
+    public Reservation(CakeTemplate cakeTemplate, Customer customer, List<Option> selectedOptions, LocalDateTime pickupTime) {
+        validateCakeAvailability(cakeTemplate);
+        validateOptions(cakeTemplate, selectedOptions);
         validatePickupTime(pickupTime);
-        this.cakeSize = cakeSize;
+        this.cakeTemplate = cakeTemplate;
         this.customer = customer;
         this.selectedOptions = selectedOptions;
         this.pickupTime = pickupTime;
         this.status = ReservationStatus.PENDING;
     }
 
-    private static void validateCakeAvailability(CakeSize cakeSize) {
-        if (cakeSize.isHidden()) {
+    private static void validateCakeAvailability(CakeTemplate cakeTemplate) {
+        if (cakeTemplate.isHidden()) {
             throw new IllegalArgumentException("예약할 수 없는 케이크입니다.");
         }
     }
 
-    private static void validateOptions(CakeSize cakeSize, List<Option> selectedOptions) {
-        List<String> invalidOptionNames = cakeSize.findInvalidOptionNames(selectedOptions);
+    private static void validateOptions(CakeTemplate cakeTemplate, List<Option> selectedOptions) {
+        List<String> invalidOptionNames = cakeTemplate.findInvalidOptionNames(selectedOptions);
         if (!invalidOptionNames.isEmpty()) {
             throw new IllegalArgumentException("유효하지 않은 옵션입니다: " + String.join(", ", invalidOptionNames));
         }
