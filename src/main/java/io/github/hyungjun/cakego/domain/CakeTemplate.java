@@ -5,20 +5,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CakeTemplate {
-    private CakeSizeName name;
+    private CakeSize size;
     private CakeOrderType cakeType;
     private Money basePrice;
     private boolean isAvailable;
     private List<OptionGroup> optionGroups;
 
     public CakeTemplate(
-            CakeSizeName name,
+            CakeSize size,
             CakeOrderType cakeType,
             Money basePrice,
             boolean isAvailable,
             List<OptionGroup> optionGroups
     ) {
-        this.name = name;
+        this.size = size;
         this.cakeType = cakeType;
         this.basePrice = basePrice;
         this.isAvailable = isAvailable;

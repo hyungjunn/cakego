@@ -74,7 +74,7 @@ public class ReservationTest {
     // This testFixture is implemented for the purpose of testing reserve hidden cake.
     private CakeTemplate cakeSizeHidden() {
         return new CakeTemplate(
-                new CakeSizeName("1호"),
+                new CakeSize("1호"),
                 CakeOrderType.REGULAR,
                 Money.won(43000),
                 false,
@@ -113,7 +113,7 @@ public class ReservationTest {
 
     private static CakeTemplate regularCakeSizeWithAllOptions() {
         return new CakeTemplate(
-                new CakeSizeName("1호"),
+                new CakeSize("1호"),
                 CakeOrderType.REGULAR,
                 Money.won(43000),
                 true,
