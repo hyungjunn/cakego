@@ -1,42 +1,22 @@
 package io.github.hyungjun.cakego.domain;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
-public class CakeSize {
-    private CakeSizeName name;
-    private CakeOrderType cakeType;
-    private Money basePrice;
-    private boolean isAvailable;
-    private List<OptionGroup> optionGroups;
+public class CakeSize { // VO
+    private final String size;
 
-    public CakeSize(
-            CakeSizeName name,
-            CakeOrderType cakeType,
-            Money basePrice,
-            boolean isAvailable,
-            List<OptionGroup> optionGroups
-    ) {
-        this.name = name;
-        this.cakeType = cakeType;
-        this.basePrice = basePrice;
-        this.isAvailable = isAvailable;
-        this.optionGroups = optionGroups;
+    public CakeSize(String size) {
+        this.size = size;
     }
 
-    public boolean isHidden() {
-        return !isAvailable;
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof CakeSize that)) return false;
+        return Objects.equals(size, that.size);
     }
 
-    public List<String> findInvalidOptionNames(List<Option> selectedOptions) {
-        Set<Option> validOptions = optionGroups.stream()
-                .flatMap(g -> g.getOptions().stream())
-                .collect(Collectors.toSet());
-
-        return selectedOptions.stream()
-                .filter(o -> !validOptions.contains(o))
-                .map(Option::getName)
-                .toList();
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(size);
     }
 }

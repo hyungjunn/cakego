@@ -2,15 +2,24 @@ package io.github.hyungjun.cakego.domain;
 
 import lombok.Getter;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 public class OptionGroup {
+    private Long id;
     private String name;
-    private List<Option> options;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public OptionGroup(String name, List<Option> options) {
-        this.name = name;
-        this.options = options;
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof OptionGroup that)) return false;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
     }
 }
