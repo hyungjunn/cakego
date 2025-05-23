@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Money { // VO
-    private static final Money ZERO = new Money(BigDecimal.ZERO);
+    public static final Money ZERO = new Money(BigDecimal.ZERO);
 
     private final BigDecimal amount;
 
