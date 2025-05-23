@@ -35,6 +35,17 @@ class ReservationTest {
         assertThat(exception.getMessage()).isEqualTo("예약은 최소 2일 후부터 가능합니다.");
     }
 
+    @Test
+    void shouldThrowExceptionWhenPickUpDateTimeIsNotMultipleOf30Minutes() {
+        LocalDateTime invalidDateTime = LocalDateTime.now().plusDays(3).withMinute(15);
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> createReservationWith(invalidDateTime)
+        );
+        assertThat(exception.getMessage()).isEqualTo("픽업 시간은 30분 단위로만 가능합니다 (예: 14:00, 14:30)");
+    }
+
+
     private static void createReservationWith(LocalDateTime pickUpDateTime, Clock clock) {
         new Reservation(Reservation.builder()
                 .pickUpDateTime(pickUpDateTime)

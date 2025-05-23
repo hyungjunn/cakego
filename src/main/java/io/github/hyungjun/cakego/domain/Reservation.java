@@ -6,10 +6,13 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
 public class Reservation {
+    private static final Set<Integer> ALLOWED_MINUTES = Set.of(0, 30);
+
     private Long id;
     private Shop shop;
     private Customer customer;
@@ -31,6 +34,9 @@ public class Reservation {
         }
         if (builder.pickUpDateTime.isBefore(now.plusDays(2))) {
             throw new IllegalArgumentException("예약은 최소 2일 후부터 가능합니다.");
+        }
+        if (!ALLOWED_MINUTES.contains(builder.pickUpDateTime.getMinute())) {
+            throw new IllegalArgumentException("픽업 시간은 30분 단위로만 가능합니다 (예: 14:00, 14:30)");
         }
         this.shop = builder.shop;
         this.customer = builder.customer;
