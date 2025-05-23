@@ -2,15 +2,15 @@ package io.github.hyungjun.cakego.domain;
 
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
 public class OptionGroup {
+    private Long id;
     private String name;
-
-    public OptionGroup(String name) {
-        this.name = name;
-    }
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @Override
     public boolean equals(Object o) {

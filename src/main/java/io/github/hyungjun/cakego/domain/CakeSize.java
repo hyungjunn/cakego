@@ -2,7 +2,7 @@ package io.github.hyungjun.cakego.domain;
 
 import java.util.Objects;
 
-public class CakeSize {
+public class CakeSize { // VO
     private final String size;
 
     public CakeSize(String size) {

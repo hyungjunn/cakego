@@ -3,7 +3,7 @@ package io.github.hyungjun.cakego.domain;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Money {
+public class Money { // VO
     private static final Money ZERO = new Money(BigDecimal.ZERO);
 
     private final BigDecimal amount;

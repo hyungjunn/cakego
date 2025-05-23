@@ -2,11 +2,13 @@ package io.github.hyungjun.cakego.domain;
 
 import java.time.LocalDateTime;
 
-public class ReservedCake {
+public class ShopOwner {
     private Long id;
-    private CakeTemplate cakeTemplate;
-    private Reservation reservation;
-    private Money appliedPrice;
+    private String name;
+    private String loginId;
+    private String password;
+    private String email;
+    private String phoneNumber;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
