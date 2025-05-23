@@ -2,7 +2,8 @@ package io.github.hyungjun.cakego.domain;
 
 import java.time.LocalDateTime;
 
-public class Shop {
+public class
+Shop {
     private Long id;
     private ShopOwner shopOwner;
     private String name;
