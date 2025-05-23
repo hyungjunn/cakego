@@ -12,12 +12,8 @@ public class Money { // VO
         this.amount = amount;
     }
 
-    public static Money won(long amount) {
+    public static Money of(int amount) {
         return new Money(BigDecimal.valueOf(amount));
-    }
-
-    public static Money zero() {
-        return ZERO;
     }
 
     public Money plus(Money other) {
