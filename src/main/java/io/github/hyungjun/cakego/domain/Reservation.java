@@ -9,17 +9,15 @@ import java.util.List;
 public class Reservation {
     private CakeTemplate cakeTemplate;
     private Customer customer;
-    private List<Option> selectedOptions;
+    // private List<Option> selectedOptions;
     private LocalDateTime pickupTime;
     private ReservationStatus status;
 
-    public Reservation(CakeTemplate cakeTemplate, Customer customer, List<Option> selectedOptions, LocalDateTime pickupTime) {
+    public Reservation(CakeTemplate cakeTemplate, Customer customer, LocalDateTime pickupTime) {
         validateCakeAvailability(cakeTemplate);
-        validateOptions(cakeTemplate, selectedOptions);
         validatePickupTime(pickupTime);
         this.cakeTemplate = cakeTemplate;
         this.customer = customer;
-        this.selectedOptions = selectedOptions;
         this.pickupTime = pickupTime;
         this.status = ReservationStatus.PENDING;
     }
@@ -30,12 +28,12 @@ public class Reservation {
         }
     }
 
-    private static void validateOptions(CakeTemplate cakeTemplate, List<Option> selectedOptions) {
-        List<String> invalidOptionNames = cakeTemplate.findInvalidOptionNames(selectedOptions);
-        if (!invalidOptionNames.isEmpty()) {
-            throw new IllegalArgumentException("유효하지 않은 옵션입니다: " + String.join(", ", invalidOptionNames));
-        }
-    }
+    // private static void validateOptions(CakeTemplate cakeTemplate, List<Option> selectedOptions) {
+    //     List<String> invalidOptionNames = cakeTemplate.findInvalidOptionNames(selectedOptions);
+    //     if (!invalidOptionNames.isEmpty()) {
+    //         throw new IllegalArgumentException("유효하지 않은 옵션입니다: " + String.join(", ", invalidOptionNames));
+    //     }
+    // }
 
     private void validatePickupTime(LocalDateTime pickupTime) {
         if (pickupTime.isBefore(LocalDateTime.now())) {

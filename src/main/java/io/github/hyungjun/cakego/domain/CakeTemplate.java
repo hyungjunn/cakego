@@ -1,9 +1,10 @@
 package io.github.hyungjun.cakego.domain;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import lombok.Getter;
 
+import java.util.List;
+
+@Getter
 public class CakeTemplate {
     private CakeSize size;
     private CakeOrderType cakeType;
@@ -30,13 +31,13 @@ public class CakeTemplate {
     }
 
     public List<String> findInvalidOptionNames(List<Option> selectedOptions) {
-        Set<Option> validOptions = optionGroups.stream()
-                .flatMap(g -> g.getOptions().stream())
-                .collect(Collectors.toSet());
-
         return selectedOptions.stream()
-                .filter(o -> !validOptions.contains(o))
+                .filter(selectedOpt -> !selectedOpt.isValidGroupInTemplate(this))
                 .map(Option::getName)
                 .toList();
+    }
+
+    public boolean contains(OptionGroup optionGroup) {
+        return this.optionGroups.contains(optionGroup);
     }
 }
