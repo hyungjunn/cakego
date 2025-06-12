@@ -10,6 +10,9 @@ public class Customer { // VO
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("이름은 null이거나 공백일 수 없습니다.");
         }
+        if (phoneNumber == null) {
+            throw new IllegalArgumentException("전화번호는 필수입니다.");
+        }
         this.name = name;
         this.phoneNumber = phoneNumber;
     }

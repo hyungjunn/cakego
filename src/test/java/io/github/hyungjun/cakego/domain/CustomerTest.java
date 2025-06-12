@@ -1,6 +1,7 @@
 package io.github.hyungjun.cakego.domain;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
@@ -13,5 +14,12 @@ class CustomerTest {
         Assertions.assertThatThrownBy(() -> new Customer(input, phoneNumber))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이름은 null이거나 공백일 수 없습니다.");
+    }
+
+    @Test
+    void exception_when_phone_number_is_null() {
+        Assertions.assertThatThrownBy(() -> new Customer("홍길동", null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("전화번호는 필수입니다.");
     }
 }
