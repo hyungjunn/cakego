@@ -7,6 +7,9 @@ public class Customer { // VO
     private PhoneNumber phoneNumber;
 
     public Customer(String name, PhoneNumber phoneNumber) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("이름은 null이거나 공백일 수 없습니다.");
+        }
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
