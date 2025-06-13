@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class CustomerTest {
-
     @ParameterizedTest
     @NullAndEmptySource
     void test_customer_name_is_null_or_blank(String input) {
