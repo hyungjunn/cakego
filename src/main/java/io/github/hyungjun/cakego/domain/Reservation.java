@@ -20,6 +20,7 @@ public class Reservation {
     private LocalDateTime pickUpDateTime;
     private ReservationStatus status;
     private Money totalPrice;
+    private String rejectionReason; // 사장님이 예약 거절 사유를 텍스트로 남겨야 한다.
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
