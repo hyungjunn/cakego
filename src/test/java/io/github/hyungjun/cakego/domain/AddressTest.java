@@ -82,4 +82,3 @@ class AddressTest {
                 .doesNotThrowAnyException();
     }
 }
-

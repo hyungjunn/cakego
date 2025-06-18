@@ -12,17 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ReservationTest {
     @Test
-    void shouldThrowExceptionWhenPickUpDateTimeIsInPast() {
+    void exception_when_pickUpDateTime_is_in_past() {
         LocalDateTime pastDateTime = LocalDateTime.now().minusDays(1);
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> createReservationWith(pastDateTime)
+                () -> aReservationBuilder().pickUpDateTime(pastDateTime).build()
         );
         assertThat(exception.getMessage()).isEqualTo("예약 날짜, 시간은 현재 시간보다 미래여야 합니다.");
     }
 
     @Test
-    void shouldThrowExceptionWhenPickUpDateTimeIsToday() {
+    void exception_when_pickUpDateTime_is_today() {
         Clock fixedClock = Clock.fixed(
                 Instant.parse("2023-10-01T00:00:00Z"),
                 ZoneId.of("UTC")
@@ -30,36 +30,27 @@ class ReservationTest {
         LocalDateTime todayDateTime = LocalDateTime.now(fixedClock);
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> createReservationWith(todayDateTime, fixedClock)
+                () -> Reservation.forTest(
+                        aReservationBuilder().pickUpDateTime(todayDateTime),
+                        fixedClock)
+
         );
         assertThat(exception.getMessage()).isEqualTo("예약은 최소 2일 후부터 가능합니다.");
     }
 
     @Test
-    void shouldThrowExceptionWhenPickUpDateTimeIsNotMultipleOf30Minutes() {
+    void exception_when_pickUpDateTime_is_not_multiple_of_30minutes() {
         LocalDateTime invalidDateTime = LocalDateTime.now().plusDays(3).withMinute(15);
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> createReservationWith(invalidDateTime)
+                () -> aReservationBuilder().pickUpDateTime(invalidDateTime).build()
         );
         assertThat(exception.getMessage()).isEqualTo("픽업 시간은 30분 단위로만 가능합니다 (예: 14:00, 14:30)");
     }
 
-
-    private static void createReservationWith(LocalDateTime pickUpDateTime, Clock clock) {
-        new Reservation(Reservation.builder()
-                .pickUpDateTime(pickUpDateTime)
+    private Reservation.ReservationBuilder aReservationBuilder() {
+        return Reservation.builder()
                 .shop(new Shop())
-                .customer(new Customer("홍길동", new PhoneNumber("010-1234-5678"))),
-                clock);
-
-    }
-
-    private static void createReservationWith(LocalDateTime pastDateTime) {
-        Reservation.builder()
-                .pickUpDateTime(pastDateTime)
-                .shop(new Shop())
-                .customer(new Customer("홍길동", new PhoneNumber("010-1234-5678")))
-                .build();
+                .customer(new Customer("홍길동", new PhoneNumber("010-1234-5678")));
     }
 }

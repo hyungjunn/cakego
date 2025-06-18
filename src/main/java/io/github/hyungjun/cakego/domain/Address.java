@@ -8,20 +8,8 @@ public class Address { // VO
     private String detailAddress;
 
     public Address(String postalCode, String baseAddress, String detailAddress) {
-        if (postalCode == null || postalCode.isBlank()) {
-            throw new IllegalArgumentException("우편번호는 필수입니다");
-        }
-        // 우편번호는 5자리 숫자여야 한다.
-        if (!postalCode.matches("\\d{5}")) {
-            throw new IllegalArgumentException("우편번호는 5자리 숫자여야 합니다");
-        }
-        if (baseAddress == null || baseAddress.isBlank()) {
-            throw new IllegalArgumentException("기본 주소는 필수입니다");
-        }
-        // 기본 주소는 5자 이상이어야 한다.
-        if (baseAddress.length() < 5) {
-            throw new IllegalArgumentException("기본 주소는 최소 5자 이상이어야 합니다");
-        }
+        validatePostalCode(postalCode);
+        validateBaseAddress(baseAddress);
         this.postalCode = postalCode;
         this.baseAddress = baseAddress;
         this.detailAddress = detailAddress;
@@ -29,6 +17,24 @@ public class Address { // VO
 
     public static Address of(String postalCode, String baseAddress, String detailAddress) {
         return new Address(postalCode, baseAddress, detailAddress);
+    }
+
+    private static void validateBaseAddress(String baseAddress) {
+        if (baseAddress == null || baseAddress.isBlank()) {
+            throw new IllegalArgumentException("기본 주소는 필수입니다");
+        }
+        if (baseAddress.length() < 5) {
+            throw new IllegalArgumentException("기본 주소는 최소 5자 이상이어야 합니다");
+        }
+    }
+
+    private static void validatePostalCode(String postalCode) {
+        if (postalCode == null || postalCode.isBlank()) {
+            throw new IllegalArgumentException("우편번호는 필수입니다");
+        }
+        if (!postalCode.matches("\\d{5}")) {
+            throw new IllegalArgumentException("우편번호는 5자리 숫자여야 합니다");
+        }
     }
 
     @Override
